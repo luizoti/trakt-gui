@@ -1,0 +1,62 @@
+QToolButton, QPushButton {
+    background-color: #3c3f41;
+} 
+
+QToolButton {
+        height: 60px;
+        /*width: 60px;*/
+        border-radius: 14px;
+        padding: 5px;
+    }
+
+QToolButton::hover { 
+        height: 60px;
+        /*width: 60px;*/
+        border: 1px solid gray;
+        border-radius: 14px;
+        padding: 5px;
+    }
+
+QPushButton {
+        font: bold;
+        font-size: 16px; 
+        border-radius: 14px;
+        border: none;
+        height: 20px;
+        padding: 6px;
+    }
+
+QPushButton::hover {
+        font: bold;
+        font-size: 16px; 
+        border: 1px solid gray;
+        border-radius: 10px; 
+        height: 20px; 
+        padding: 6px;
+    }
+
+QListWidget {
+        border: none;
+        background-color: #262626;
+    }
+
+QLineEdit {
+        padding: 10px;
+        border-radius: 10px; 
+        font: bold;
+        font-size: 16px; 
+        width: 25px;
+        height: 20px; 
+    }
+
+QLabel {
+        font: bold;
+        color: gray;
+        font-size: 16px; 
+        width: 25px;
+        height: 16px; 
+    }
+
+QMainWindow {
+        background-color: #262626;
+    }

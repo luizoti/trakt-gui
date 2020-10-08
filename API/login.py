@@ -1,40 +1,60 @@
-import requests
+#!/usr/bin/env python3
+
+from __future__ import absolute_import
+
+import sys
+import re
 import json
+import API.apibase as api
+from time import sleep
+# from os.path import dirname, realpath, join
 
-# https://trakt.tv/oauth/applications/74257
 
-
-class TraktApi():
+class LoginTrakt():
     def __init__(self):
-        self.client_id = '1d7cdcd61fb21cc496f115a2918183f1071d3a7f4587fa2348c2610438141bf6'
-        self.APIURL = 'https://api.trakt.tv'
-        self.METHODS = {
-            'getcode': '/oauth/device/code',
-            'wat_movies': '/sync/watched/movies' # create a method
+        self.TYPES = {
+                'getcode'  : '/oauth/device/code',
+                'checkauth': '/oauth/device/token',
+                }
+
+        self.headers = {
+            'Content-Type': 'application/json',
         }
 
 
-    def get(self, method):
-        try:
-            return requests.get(self.APIURL + method, headers={'Content-Type': 'application/json',
-                                                                'trakt-api-version': '2',
-                                                                 'trakt-api-key': self.client_id})
-        except Exception as e:
-            raise e
-        pass
+    def GetCode(self, username):
+        METHOD = ''.join([self.TYPES['getcode']])
+        return api.ApiBase.post(self, METHOD, self.headers, {'client_id': api.keys['client_id']})
 
 
-    def post(self, method, data):
-        try:
-            return requests.post(self.APIURL + method, headers={'Content-Type': 'application/json'}, data=json.dumps(data))
-        except Exception as e:
-            raise e
-        pass
+    def CheckAuth(self, code):
+        METHOD = ''.join([self.TYPES['checkauth']])
+
+        data = {
+          "code": code,
+          "client_id": api.keys['client_id'],
+          "client_secret": api.keys['client_secret']
+        }
+        return api.ApiBase.post(self, METHOD, self.headers, data=data).status_code
+
+# import sqlite3
+# from sqlite3 import Error
+
+# class DataBase():
+#     def __init__(self):
+#         self.db_file = join(dirname(dirname(realpath(sys.argv[0]))), 'database.db')
+
+#     def create_connection(self):
+#         try:
+#             _db = sqlite3.connect(self.db_file)
+#             print(sqlite3.version)
+#         except Error as e:
+#             print(e)
+
+#         _db.close()
+#         pass
+
         
-
-
-if __name__ == '__main__':
-    api = TraktApi()
-    # autcode = json.loads(api.post(api.METHODS['getcode'], {'client_id': api.client_id}).content)
-    print(api.get(api.METHODS['wat_movies']))
-    pass
+# db = DataBase()
+# db.create_connection()
+# # /home/luiz/trakt-gui-project/trakt-gui/API/database.db            

@@ -1,16 +1,14 @@
 #!/usr/bin/python3
 # 
 import sys
-# Layouts
+import json
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QApplication , QMainWindow , QPushButton , QWidget
 
 from UI.Dash import DashUI
 from UI.Login import LoginUI
 from UI.Search import SearchUI
 
-import json
-
-from PyQt5.QtGui import QIcon, QPixmap
 
 class TraktGui(QMainWindow):
     def __init__(self, parent=None):

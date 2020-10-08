@@ -1,2 +1,0 @@
-nuitka3 --recurse-all --follow-imports --show-scons ~/trakt-gui/trakt-gui.py 
- 
