@@ -4,7 +4,7 @@ from PyQt5.QtCore import QTimer, QTime
 from PyQt5.QtWidgets import QPushButton, QToolButton, QLabel, QLineEdit, QWidget
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QDesktopWidget, QSlider
 
-from API.login import LoginTrakt
+from API.login import GetCode, CheckAuth
 
 messege = ['Acesse ', 
             '', 
@@ -17,8 +17,6 @@ messege = ['Acesse ',
 class LoginUI(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self)
-        self.login = LoginTrakt()
-
         self.LoginLabelInfo = QLabel(self)
         self.LoginLabelInfo.setOpenExternalLinks(True)
         self.StatusLabel = QLabel(self)
@@ -80,7 +78,7 @@ class LoginUI(QWidget):
 
         if len(username) > 0:
             try:
-                self.code = self.login.GetCode(username)
+                self.code = GetCode(username)
             except Exception as e:
                 raise e
 
@@ -94,7 +92,7 @@ class LoginUI(QWidget):
                 self.stop = True
 
                 self.UpdateTimer() 
-                self.CheckAuth() 
+                self.doCheckAuth() 
                 self.UsernameTextBox.setText(self.code['user_code'])                
                 pass
             pass
@@ -117,9 +115,9 @@ class LoginUI(QWidget):
         pass
 
 
-    def CheckAuth(self):
+    def doCheckAuth(self):
         try:
-            status = int(self.login.CheckAuth(self.code['device_code']))
+            status = int(CheckAuth(self.code['device_code']))
         except Exception as e:
             raise e
 
@@ -130,7 +128,7 @@ class LoginUI(QWidget):
         elif status == 400:
             self.StatusLabel.setText('Aguardando aprovação!')
             self.stop = True
-            QTimer.singleShot((self.interval * 1000), self.CheckAuth) 
+            QTimer.singleShot((self.interval * 1000), self.doCheckAuth) 
         elif status in [404, 409, 410, 418]:
             self.StatusLabel.setText('Houve um erro no Login!')
             self.stop = False
