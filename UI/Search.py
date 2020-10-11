@@ -6,8 +6,7 @@ from PyQt5.QtWidgets import QSlider, QVBoxLayout, QHBoxLayout
 from PyQt5.QtWidgets import QLabel, QLineEdit, QPushButton, QToolButton
 from PyQt5.QtWidgets import QWidget, QListView, QListWidget, QListWidgetItem
 
-
-from API.search import SearchTrakt
+from API.search import Search
 
 
 
@@ -117,8 +116,6 @@ class SearchUI(QWidget):
         self.cover = "/home/luiz/trakt-gui-project/trakt-gui/media/covertest.jpg"
         self.modeState = 1
         self.globalInitialItemSize = QSize(150, 225)
-
-        self.Search = SearchTrakt()
         # Layouts
         self.PHLayList = QHBoxLayout()
         self.VLayTop = QVBoxLayout()
@@ -180,7 +177,7 @@ class SearchUI(QWidget):
 
         if len(textbox) > 0:
             try:
-                self.search_data = self.Search.Search('movie', textbox)
+                self.search_data = Search('movie', textbox)
             except Exception as e:
                 raise e
 
