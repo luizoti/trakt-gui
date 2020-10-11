@@ -1,5 +1,5 @@
-from apibase import post
-from apikeys import trakt
+from API.apibase import post
+from API.apikeys import trakt
 
 
 TYPES = {
