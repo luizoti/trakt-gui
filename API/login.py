@@ -1,13 +1,5 @@
-#!/usr/bin/env python3
-
-from __future__ import absolute_import
-
-import sys
-import re
-import json
-import API.apibase as api
-from time import sleep
-# from os.path import dirname, realpath, join
+from API.apibase import post
+from API.apikeys import trakt
 
 
 class LoginTrakt():
@@ -24,7 +16,7 @@ class LoginTrakt():
 
     def GetCode(self, username):
         METHOD = ''.join([self.TYPES['getcode']])
-        return api.ApiBase.post(self, METHOD, self.headers, {'client_id': api.keys['client_id']})
+        return post(trakt['APIURL'], METHOD, self.headers, {'client_id': trakt['client_id']})
 
 
     def CheckAuth(self, code):
@@ -32,8 +24,7 @@ class LoginTrakt():
 
         data = {
           "code": code,
-          "client_id": api.keys['client_id'],
-          "client_secret": api.keys['client_secret']
+          "client_id": trakt['client_id'],
+          "client_secret": trakt['client_secret']
         }
-        return api.ApiBase.post(self, METHOD, self.headers, data=data).status_code
-    
+        return post(trakt['APIURL'], METHOD, self.headers, data=data).status_code
