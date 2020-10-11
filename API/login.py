@@ -1,30 +1,28 @@
-from API.apibase import post
-from API.apikeys import trakt
+from apibase import post
+from apikeys import trakt
 
 
-class LoginTrakt():
-    def __init__(self):
-        self.TYPES = {
-                'getcode'  : '/oauth/device/code',
-                'checkauth': '/oauth/device/token',
-                }
-
-        self.headers = {
-            'Content-Type': 'application/json',
+TYPES = {
+        'getcode'  : '/oauth/device/code',
+        'checkauth': '/oauth/device/token',
         }
 
+headers = {
+    'Content-Type': 'application/json',
+}
 
-    def GetCode(self, username):
-        METHOD = ''.join([self.TYPES['getcode']])
-        return post(trakt['APIURL'], METHOD, self.headers, {'client_id': trakt['client_id']})
+
+def GetCode(username):
+    METHOD = ''.join([TYPES['getcode']])
+    return post(trakt['APIURL'], METHOD, headers, {'client_id': trakt['client_id']})
 
 
-    def CheckAuth(self, code):
-        METHOD = ''.join([self.TYPES['checkauth']])
+def CheckAuth(code):
+    METHOD = ''.join([TYPES['checkauth']])
 
-        data = {
-          "code": code,
-          "client_id": trakt['client_id'],
-          "client_secret": trakt['client_secret']
-        }
-        return post(trakt['APIURL'], METHOD, self.headers, data=data).status_code
+    data = {
+      "code": code,
+      "client_id": trakt['client_id'],
+      "client_secret": trakt['client_secret']
+    }
+    return post(trakt['APIURL'], METHOD, headers, data=data).status_code
