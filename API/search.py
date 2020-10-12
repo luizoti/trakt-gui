@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 
 import json
-from API.apibase import get
-from API.apikeys import trakt
 
+try:
+    from API.apibase import get
+    from API.apikeys import trakt
+    from API.tmdb import GetData
+except Exception as e:
+    from apibase import get
+    from apikeys import trakt
+    from tmdb import GetData
+
+from time import sleep
 
 TYPES = {
     'all'        : '/search/all?query=',
@@ -29,6 +37,10 @@ def Search(_type, movie):
         if response.status_code == 200 and len(json.loads(response.content)) == 0:
             result = 0
         elif response.status_code == 200 and len(json.loads(response.content)) > 0:
+            for item in json.loads(response.content):
+                print(GetData(_type, str(item[_type]['ids']['tmdb'])))
+                # sleep(0.1)
+                pass
             result = json.loads(response.content)
             pass
 
