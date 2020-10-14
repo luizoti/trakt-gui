@@ -5,9 +5,11 @@ import json
 try:
     from API.apibase import get
     from API.apikeys import tmdb
+    from API.cache import Cache
 except Exception as e:
     from apibase import get
     from apikeys import tmdb
+    from cache import Cache
     pass
 
 
@@ -51,6 +53,7 @@ def config(img_type, file): # Future update a persistent mecanism with timer cou
 
 
 def GetData(_type, _id, season_number=None, episode_number=None, lang='en-US'):
+    ch = Cache(_id)
     method_list = TYPES[_type]
     method = method_list[1] = _id
 
@@ -65,6 +68,10 @@ def GetData(_type, _id, season_number=None, episode_number=None, lang='en-US'):
         pass
 
     try:
-        return json.loads(get(tmdb['APIURL'], ''.join([''.join(method_list), '?api_key=', tmdb['apikey'], '&language=', lang]), headers=headers).content)
+        if ch.isOnCache() is True:
+            return ch.returnCache()
+        else:
+            return ch.doCache(json.loads(get(tmdb['APIURL'], ''.join([''.join(method_list), '?api_key=', tmdb['apikey'], '&language=', lang]), headers=headers).content))
+            pass
     except Exception as e:
         raise e
