@@ -11,7 +11,6 @@ except Exception as e:
     from apikeys import trakt
     from tmdb import GetData
 
-from time import sleep
 
 TYPES = {
     'all'        : '/search/all?query=',
@@ -35,15 +34,17 @@ def Search(_type, movie):
         response = get(trakt['APIURL'], ''.join([TYPES[_type], movie]), headers)
 
         if response.status_code == 200 and len(json.loads(response.content)) == 0:
-            result = 0
+            return result
         elif response.status_code == 200 and len(json.loads(response.content)) > 0:
-            for item in json.loads(response.content):
-                print(GetData(_type, str(item[_type]['ids']['tmdb'])))
-                # sleep(0.1)
+            search = json.loads(response.content)
+            for index in range(0, len(search)):
+                _data = GetData(_type, str(search[index][_type]['ids']['tmdb']))
+                for data in _data:
+                    search[index][data] = _data[data]
+                    pass
                 pass
-            result = json.loads(response.content)
             pass
 
     except Exception as e:
         raise e
-    return result
+    return search
