@@ -30,11 +30,11 @@ headers = {
 }
 
 
-def config(img_type, size, file): # Future update a persistent mecanism with timer count to rerun in X space of days
+def config(img_type, file): # Future update a persistent mecanism with timer count to rerun in X space of days
     _dict = {
-        'backdrop_path': 'backdrop_sizes'
-        'poster_path': 'backdrop_sizes'
-        'logo_path': 'backdrop_sizes'
+        'backdrop_path': ['backdrop_sizes', 'w780'],
+        'poster_path': ['poster_sizes', 'w500'],
+        'logo_path': ['logo_sizes', 'w185'],
     }
 
     try:
@@ -42,7 +42,10 @@ def config(img_type, size, file): # Future update a persistent mecanism with tim
     except Exception as e:
         raise e
 
-    if size in cfg['images'][_dict[img_type]]:
+    _type = cfg['images'][_dict[img_type][0]]
+    size = _dict[img_type][1]
+
+    if size in _type:
         return ''.join([cfg['images']['secure_base_url'], size, file])
         pass
 
@@ -65,5 +68,3 @@ def GetData(_type, _id, season_number=None, episode_number=None, lang='en-US'):
         return json.loads(get(tmdb['APIURL'], ''.join([''.join(method_list), '?api_key=', tmdb['apikey'], '&language=', lang]), headers=headers).content)
     except Exception as e:
         raise e
-
-# GetData('movie', '24428')
