@@ -91,7 +91,6 @@ class CustonLineEdit(QLineEdit):
         self.setPlaceholderText('Pesquise um titulo!')
         self.SearchBtnInside = QToolButton()
         self.SearchBtnInside.setStyleSheet("");
-        # self.SearchBtnInside.setIcon(QIcon(r"/media/luiz/HD/posinstall/repos/folderfromselected/icos/find.svg"))
         self.SearchBtnInside.setCursor(Qt.ArrowCursor)
         self.lay = QHBoxLayout()
         self.lay.addStretch(1)
@@ -112,7 +111,6 @@ class SizeSlider(QSlider):
 class SearchUI(QWidget):
     def __init__(self):
         QWidget.__init__(self)
-        self.cover = "/home/luiz/trakt-gui-project/trakt-gui/media/covertest.jpg"
         self.modeState = 1
         self.globalInitialItemSize = QSize(150, 225)
         # Layouts
