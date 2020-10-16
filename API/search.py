@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import json
 
 try:
@@ -41,10 +39,6 @@ def Search(_type, movie):
                 _data = GetData(_type, str(search[index][_type]['ids']['tmdb']))
                 for data in _data:
                     search[index][data] = _data[data]
-                    pass
-                pass
-            pass
-
     except Exception as e:
         raise e
     return search

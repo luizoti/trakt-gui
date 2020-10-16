@@ -91,12 +91,11 @@ class CustonLineEdit(QLineEdit):
         self.setPlaceholderText('Pesquise um titulo!')
         self.SearchBtnInside = QToolButton()
         self.SearchBtnInside.setStyleSheet("");
-        self.SearchBtnInside.setIcon(QIcon(r"/media/luiz/HD/posinstall/repos/folderfromselected/icos/find.svg"))
+        # self.SearchBtnInside.setIcon(QIcon(r"/media/luiz/HD/posinstall/repos/folderfromselected/icos/find.svg"))
         self.SearchBtnInside.setCursor(Qt.ArrowCursor)
         self.lay = QHBoxLayout()
         self.lay.addStretch(1)
         self.lay.addWidget(self.SearchBtnInside)
-        self.setText('avengers')
         self.setLayout(self.lay)
 
 

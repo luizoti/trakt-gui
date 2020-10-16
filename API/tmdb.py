@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import json
 from re import search
 from os.path import join, basename, isfile
