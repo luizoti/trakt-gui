@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
 import json
+from re import search
+from os.path import join, basename, isfile
 
 try:
     from API.apibase import get
     from API.apikeys import tmdb
-    from API.cache import Cache
+    from API.cache import Cache, cache_path
 except Exception as e:
     from apibase import get
     from apikeys import tmdb
-    from cache import Cache
+    from cache import Cache, cache_path
     pass
 
 
@@ -32,24 +34,6 @@ headers = {
 }
 
 
-def config(img_type, file): # Future update a persistent mecanism with timer count to rerun in X space of days
-    _dict = {
-        'backdrop_path': ['backdrop_sizes', 'w780'],
-        'poster_path': ['poster_sizes', 'w500'],
-        'logo_path': ['logo_sizes', 'w185'],
-    }
-
-    try:
-        cfg = json.loads(get(tmdb['APIURL'], ''.join([TYPES['config'], tmdb['apikey']]), headers).content)
-    except Exception as e:
-        raise e
-
-    _type = cfg['images'][_dict[img_type][0]]
-    size = _dict[img_type][1]
-
-    if size in _type:
-        return ''.join([cfg['images']['secure_base_url'], size, file])
-        pass
 
 
 def GetData(_type, _id, season_number=None, episode_number=None, lang='en-US'):
@@ -75,3 +59,82 @@ def GetData(_type, _id, season_number=None, episode_number=None, lang='en-US'):
             pass
     except Exception as e:
         raise e
+
+
+class Images():
+    def __init__(self):
+        self.nocov = '/home/luiz/trakt-gui-project/trakt-gui/images/no-cover.jpg'
+
+
+    def parser(self, img_type, jsdt):
+        try:
+            return jsdt[img_type]
+        except Exception as e:
+            return None
+            pass
+
+
+    def config(self, file, img_type):
+        _dict = {
+            'backdrop_path': ['backdrop_sizes', 'w780'],
+            'poster_path': ['poster_sizes', 'w500'],
+            'logo_path': ['logo_sizes', 'w185'],
+        }
+
+        try:
+            cfg = json.loads(get(tmdb['APIURL'], ''.join([TYPES['config'], tmdb['apikey']]), headers).content)
+        except Exception as e:
+            raise e
+
+        _type = cfg['images'][_dict[img_type][0]]
+        size = _dict[img_type][1]
+
+        if size in _type:
+            return ''.join([cfg['images']['secure_base_url'], size, file])
+            pass
+
+
+    def returnImg(self, img_type, tmdbid, jsdt):
+
+        try:
+            import urllib.request
+        except Exception as e:
+            raise e
+
+        try:
+            file = self.parser(img_type, jsdt)
+        except Exception as e:
+            raise e
+
+        if file is None:
+            if isfile(self.nocov):
+                return self.nocov
+                pass
+            pass
+        elif 'no-cover' in file:
+            return file
+            pass
+        else:
+            try:
+                path = join(cache_path, str(tmdbid), ''.join([img_type, '.', basename(file).split('.')[1]]))
+            except Exception as e:
+                raise e
+            else:
+                pass
+
+            if isfile(path):
+                return path
+            else:
+                try:
+                    urllib.request.urlretrieve(self.config(file, img_type), path)
+                except Exception as e:
+                    pass
+
+                if isfile(path):
+                    return path
+                else:
+                    return self.nocov
+                    pass
+                pass
+            pass
+        pass
