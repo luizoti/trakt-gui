@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import json
 from os.path import isdir, isfile, join, dirname
 
@@ -42,7 +40,7 @@ class Cache():
         if self.makeDir() is True:
             try:
                 with open(self.file_path, 'w') as tmdbfile:
-                    tmdbfile.write(json.dumps(jsondata))
+                    tmdbfile.write(json.dumps(jsondata, sort_keys=True, indent=4))
                     tmdbfile.close()
             except Exception as e:
                 raise e
