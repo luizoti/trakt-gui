@@ -1,18 +1,14 @@
 #!/usr/bin/python3
 # 
-import pylint
-import json
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QDesktopWidget
+from os.path import dirname, join
+
+from PyQt5.QtCore import QSize, Qt
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget
 
 from UI.Dash import DashUI
 from UI.Login import LoginUI
 from UI.Search import SearchUI
-
-from PyQt5.QtCore import QSize, Qt
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-from os.path import dirname, join
 
 
 class CurrentResolution(QDesktopWidget):
@@ -65,7 +61,7 @@ class TraktGui(QMainWindow):
 
 
     def resizeEvent(self, event):
-        print('Resolução:', self.resolution.width(), self.resolution.height(), '-', 'Janela:', 'WIDTH:', self.width(), 'HEIGHT:', self.height())
+        # print('Resolução:', self.resolution.width(), self.resolution.height(), '-', 'Janela:', 'WIDTH:', self.width(), 'HEIGHT:', self.height())
         # 1366
         if self.resolution.width() <= 1366 and self.resolution.height() <= 768:
             _size = 180
@@ -88,7 +84,7 @@ class TraktGui(QMainWindow):
             self.setMinimumSize(QSize(952, 520))
             _size = 310 # minimo
             if self.width() <= 920 and 510 < self.height() < 530:
-                # Caso a janela seja movida e não esteja dockada
+                # Caso a janela seja movida  não esteja dockada
                 # WIDTH: 950 HEIGHT: 520
                 _size = 310 # minimo
                 pass
