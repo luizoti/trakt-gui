@@ -1,0 +1,8 @@
+pylint
+autopep8
+cx_freeze
+
+pyqt5
+screeninfo
+requests
+

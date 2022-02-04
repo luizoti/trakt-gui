@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QLabel, QLineEdit, QPushButton, QToolButton
 from PyQt5.QtWidgets import QWidget, QListView, QListWidget, QListWidgetItem
 
 from API.search import Search
-from API.tmdb import Images
+from API.images import Images
 
 
 class CustonWidgetItem(QWidget):
@@ -143,7 +143,7 @@ class SearchUI(QWidget):
         self.PHLayList.addWidget(self.SearchList)
         self.setLayout(self.PHLayList)
         self.PHLayList.addWidget(self.SearchList)
-        self.img = Images()
+        self.im = Images()
         self.setLayout(self.PHLayList)
 
 
@@ -153,7 +153,8 @@ class SearchUI(QWidget):
         try:
             for item in self.search_data:
                 # instance custon widget item
-                CustonItem = CustonWidgetItem(_size, self.img.returnImg('poster_path', item['movie']['ids']['tmdb'], item))
+                print(item[item['type']]['ids']['imdb'], item[item['type']]['ids']['trakt'])
+                CustonItem = CustonWidgetItem(_size, self.im.retImg('poster', item[item['type']]['ids']['imdb'], item[item['type']]['ids']['trakt']))
                 CustonWitgetItemList = QListWidgetItem(self.SearchList)
                 # width + 2 para compensar content margin and height + 30 + 2 para compensar barra de icones e contentmargin
                 CustonWitgetItemList.setSizeHint((QSize(_size.width() + 2, _size.height() + 30 + 2)))
@@ -175,7 +176,7 @@ class SearchUI(QWidget):
 
         if len(textbox) > 0:
             try:
-                self.search_data = Search('movie', textbox)
+                self.search_data = Search('movie_show', textbox)
             except Exception as e:
                 raise e
 

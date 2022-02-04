@@ -27,7 +27,7 @@ class TraktGui(QMainWindow):
         self.Dash = DashUI()
         self.Login = LoginUI()
         self.Search = SearchUI()
-        # self.setStyleSheet(open(join(self.CurrentDir ,'UI' ,'stylesheet.css'),"r").read())
+        self.setStyleSheet(open(join(self.CurrentDir ,'UI' ,'stylesheet.css'),"r").read())
         self.showMaximized()
         # self.startDashUI()
         self.startSearchUI()

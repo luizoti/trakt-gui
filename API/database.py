@@ -15,7 +15,7 @@ class DataBase():
         _db.close()
         pass
 
-        
+
 db = DataBase()
 db.create_connection()
-# /home/luiz/trakt-gui-project/trakt-gui/API/database.db        
+# /home/luiz/trakt-gui-project/trakt-gui/API/database.db

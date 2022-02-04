@@ -3,11 +3,9 @@ import json
 try:
     from API.apibase import get
     from API.apikeys import trakt
-    from API.tmdb import GetData
 except Exception as e:
     from apibase import get
     from apikeys import trakt
-    from tmdb import GetData
 
 
 TYPES = {
@@ -35,10 +33,6 @@ def Search(_type, movie):
             return result
         elif response.status_code == 200 and len(json.loads(response.content)) > 0:
             search = json.loads(response.content)
-            for index in range(0, len(search)):
-                _data = GetData(_type, str(search[index][_type]['ids']['tmdb']))
-                for data in _data:
-                    search[index][data] = _data[data]
     except Exception as e:
         raise e
     return search

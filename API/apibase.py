@@ -11,7 +11,7 @@ def get(url, method, headers):
 
 
 def post(url, method, headers, data):
-    try:                        
+    try:
         return requests.post(''.join([url, method]), headers=headers, data=json.dumps(data))
     except Exception as e:
         raise e
